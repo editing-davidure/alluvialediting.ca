@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alluvial Editing | Scientific editing for environmental and agricultural research</title>
+<meta name="description" content="Developmental and language editing for soil, water, plant, and environmental chemistry manuscripts, by a working environmental scientist with a TESOL certificate. Approximately 1,400 manuscripts edited.">
+<link rel="canonical" href="https://alluvialediting.ca/">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #1e2a31;
+    --ink-soft: #55636b;
+    --rule: #d9dee2;
+    --delete: #b0303a;
+    --navy: #14294f;
+    --navy-soft: #2d4b80;
+    --insert: #1f5f9e;
+    --insert-bg: #eaf1fa;
+    --margin: #f5f7f8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--navy-soft); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; }
+
+  .page { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* Manuscript layout: a wide text column and a narrow margin column for notes */
+  .ms { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px 48px; }
+  @media (min-width: 820px) { .ms { grid-template-columns: minmax(0, 1fr) 260px; } }
+  .note {
+    font-size: 15px; line-height: 1.5; color: var(--ink-soft);
+    border-left: 2px solid var(--rule); padding-left: 16px;
+  }
+  @media (min-width: 820px) { .note { padding-top: 6px; } }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 0 16px; border-bottom: 2px solid var(--navy);
+    font-size: 16px;
+  }
+  header.top .brand { color: var(--navy); font-weight: 600; font-size: 18px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+  header.top .brand img { display: block; width: 34px; height: 34px; }
+  header.top nav a { margin-left: 22px; color: var(--ink); text-decoration: none; }
+  header.top nav a:hover { text-decoration: underline; }
+  @media (max-width: 560px) { header.top nav { display: none; } }
+
+  h1, h2, h3 { font-weight: 600; line-height: 1.15; margin: 0 0 0.5em; letter-spacing: -0.01em; color: var(--navy); }
+  h1 { font-size: clamp(28px, 3.8vw, 40px); max-width: 26ch; }
+  h2 { font-size: clamp(24px, 3vw, 30px); margin-top: 0; }
+  h3 { font-size: 20px; }
+  p { margin: 0 0 1em; max-width: 66ch; }
+  .lede { font-size: 21px; color: var(--ink-soft); max-width: 58ch; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+
+  /* Hero: the sample edit is the memorable element */
+  .hero { padding-top: 64px; }
+  .sample {
+    margin-top: 32px;
+    border: 1px solid var(--rule);
+    padding: 28px 28px 24px;
+    font-size: 19px;
+    line-height: 1.75;
+    max-width: 66ch;
+  }
+  .sample { border-top: 3px solid var(--navy); }
+  .sample .cap { font-size: 14px; color: var(--navy); margin: 0 0 12px; }
+  del { color: var(--delete); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+  ins { color: var(--insert); background: var(--insert-bg); text-decoration: none; padding: 0 2px; }
+  .sample .comment {
+    margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--rule);
+    font-size: 15px; color: var(--ink-soft); font-style: italic;
+  }
+  .sample .comment b { font-style: normal; color: var(--navy); font-weight: 600; }
+
+  .cta { display: inline-block; margin-top: 8px; padding: 12px 20px;
+    background: var(--navy); color: #fff; text-decoration: none; font-size: 17px; }
+  .cta:hover { background: var(--navy-soft); }
+  .cta.quiet { background: transparent; color: var(--navy); border: 1px solid var(--navy); margin-left: 8px; }
+  .cta.quiet:hover { background: var(--margin); }
+
+  /* Rates table */
+  table { border-collapse: collapse; width: 100%; font-size: 17px; margin: 8px 0 20px; }
+  th, td { text-align: left; vertical-align: top; padding: 14px 12px 14px 0; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 600; width: 26%; }
+  thead th { color: var(--navy); border-bottom: 2px solid var(--navy); }
+  td.rate { white-space: nowrap; width: 24%; }
+  @media (max-width: 560px) {
+    table, thead, tbody, tr, th, td { display: block; width: 100%; }
+    thead { display: none; }
+    tr { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    th, td { border: 0; padding: 4px 0; }
+    td.rate { font-weight: 600; }
+  }
+  .extras { columns: 2; column-gap: 40px; padding-left: 1.2em; margin: 0; max-width: 66ch; }
+  .extras li { break-inside: avoid; margin-bottom: 6px; }
+  @media (max-width: 560px) { .extras { columns: 1; } }
+
+  /* Process: a true sequence, so it is numbered */
+  ol.steps { padding-left: 0; list-style: none; counter-reset: step; max-width: 66ch; margin: 0; }
+  ol.steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 14px 0; border-top: 1px solid var(--rule); }
+  ol.steps li::before { content: counter(step) "."; font-weight: 600; color: var(--navy); }
+  ol.steps li:last-child { border-bottom: 1px solid var(--rule); }
+  ol.steps b { font-weight: 600; }
+
+  .langs { margin-top: 20px; padding: 16px 20px; background: var(--margin); max-width: 66ch; font-size: 16px; line-height: 1.7; }
+  .langs p { margin: 0 0 6px; }
+  .langs p:last-child { margin: 0; }
+
+  .portrait { display: block; width: 100%; max-width: 220px; height: auto; margin: 0 0 16px; }
+  @media (max-width: 819px) { .portrait { max-width: 180px; } }
+  footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-soft); border-top: 2px solid var(--navy); }
+  footer p { margin: 0 0 4px; }
+</style>
+</head>
+<body>
+<div class="page" id="top">
+
+  <header class="top">
+    <a class="brand" href="#top"><img src="logo.svg" alt="" width="34" height="34">Alluvial Editing</a>
+    <nav aria-label="Sections">
+      <a href="#services">Services and Rates</a>
+      <a href="#process">How it Works</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Editing for soil, water, and plant science, by a published scientist with a TESOL certificate</h1>
+    <p class="lede">Developmental and language editing for manuscripts bound for English-language journals. I check the argument, the methods, and the figures as well as the English, and I know where writers in a second language are most often misread.</p>
+    <a class="cta" href="#contact">Request a quote</a>
+    <a class="cta quiet" href="#services">See rates</a>
+
+    <div class="sample" aria-label="Example of a tracked-changes edit">
+      <p class="cap">What a substantive edit looks like</p>
+      <p>Nitrate concentrations <del>was significantly increased</del><ins>increased</ins> <del>in the</del><ins>during</ins> spring <del>season</del><ins>(March–May; p&nbsp;&lt;&nbsp;0.01)</ins>, <del>which was because of</del><ins>consistent with</ins> fertilizer application <del>and also the rainfall</del><ins>followed by high rainfall</ins>. <del>This result proves that</del><ins>The timing suggests that</ins> agricultural runoff <del>is the source</del><ins>is the dominant nitrate source at this site, although the isotope data in Section 3.3 are needed to exclude septic inputs</ins>.</p>
+      <p class="comment"><b>Editor’s note:</b> “Proves” overstates a correlation; reviewers will prefer for this to be reframed as a supported inference and as indicated by the isotopic data, which is stronger than the text currently makes it sound.</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="ms">
+      <div>
+        <h2>Services and rates</h2>
+        <p>All prices in USD. Word count encompasses the main text plus figure and table captions, excluding references and supplemental material.</p>
+        <table>
+          <thead><tr><th>Service</th><th>What it covers</th><th>Rate</th></tr></thead>
+          <tbody>
+            <tr>
+              <th>Language edit</th>
+              <td>Grammar, clarity, flow, and consistency with the target journal’s style. Tracked changes throughout.</td>
+              <td class="rate">$0.06 per word</td>
+            </tr>
+            <tr>
+              <th>Substantive edit</th>
+              <td>All language edits plus review of argument structure, methods and results, figures and tables, and a one-page editorial memo on issues reviewers are likely to raise.</td>
+              <td class="rate">$0.12 per word</td>
+            </tr>
+            <tr>
+              <th>Manuscript to submission</th>
+              <td>A substantive edit plus journal selection, cover letter, and a pre-submission check against the target journal’s requirements.</td>
+              <td class="rate">From $900, quoted</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Additional services</h3>
+        <ul class="extras">
+          <li>Response to reviewers: $150–300</li>
+          <li>Cover letter: $60</li>
+          <li>Abstract only: $50</li>
+          <li>Re-edit after revision: half the original rate</li>
+          <li>Rush, under 5 business days: +30%</li>
+          <li>Rush, under 72 hours: +50%</li>
+          <li>Lab rate: 10% off from the third manuscript</li>
+          <li>Minimum charge: $75 per order</li>
+        </ul>
+      </div>
+      <aside class="note">
+        <p>Please note, half of the fee is due before work starts and the balance on delivery. One round of follow-up questions is included with every edit.</p>
+        <p>Standard turnaround is 7 business days for a research article, counted from the deposit; the delivery date is stated in the quotation.</p>
+        <p>Where a translation of these terms is provided, the English text governs.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="ms">
+      <div>
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><span><b>Send the manuscript.</b> Email the file, the target journal, and your deadline. I read the abstract and first pages and reply with a fixed quote within one business day.</span></li>
+          <li><span><b>Confirm and pay the deposit.</b> Card, bank transfer, and Alipay are accepted. Formal invoices are provided for institutional reimbursement.</span></li>
+          <li><span><b>Receive the edit.</b> A tracked-changes file, a clean copy, and, for substantive edits, the editorial memo. Ask any follow-up questions within two weeks.</span></li>
+        </ol>
+      </div>
+      <aside class="note">
+        <p>I edit; I do not write. Authorship, data, and conclusions remain yours, and I never reuse or share manuscripts. Every edit is made by me, and manuscripts are never entered into AI tools.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="ms">
+      <div>
+        <h2>About</h2>
+        <p>Alluvial Editing is run by David Ure, PhD, who edits every manuscript personally. I am a postdoctoral fellow at the University of Windsor in Ontario, Canada. My research covers nutrient cycling, aqueous geochemistry, water quality, and stable isotope methods in agricultural and Great Lakes systems. I have published first-author papers in ACS Agricultural Science &amp; Technology, the Journal of Environmental Management, and Rapid Communications in Mass Spectrometry, and I have served as a peer reviewer for the Journal of Chemical Technology and Biotechnology.</p>
+        <p>Before my doctorate, I taught English as a second language in Seoul for three years and hold a TESOL certificate (London Language Institute, 2013). Editing for researchers writing in a second language draws on both halves of that background.</p>
+        <p>Since 2022, I have edited approximately 1,400 manuscripts for authors publishing in English-language journals, including substantive edits with direct author correspondence. Most of that work has been for researchers writing in English as a second language, in soil science, plant physiology, environmental chemistry, and environmental engineering.</p>
+        <p>What that means for you: I know which claims reviewers in these fields will challenge, which methods details journals now require, and how to make a good study read like one.</p>
+      </div>
+      <aside class="note about">
+        <img class="portrait" src="photo.jpg" width="600" height="800" alt="David Ure" loading="lazy">
+        <p>Fields I edit: soil biogeochemistry, water quality, nutrient cycling, plant physiology, environmental chemistry, environmental and agricultural engineering, and adjacent molecular biology.</p>
+        <p>Outside these fields, I will review and either accept or refer elsewhere if necessary.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ms">
+      <div>
+        <h2>Contact</h2>
+        <p>Send your manuscript and target journal to <a href="mailto:david@alluvialediting.ca">david@alluvialediting.ca</a>. You will receive a quote within one business day.</p>
+        <a class="cta" href="mailto:david@alluvialediting.ca?subject=Editing%20quote%20request">Email a quote request</a>
+        <div class="langs">
+          <p lang="zh">欢迎用中文联系。我可以用中文回复报价和答疑，编辑工作以英文进行。</p>
+          <p lang="ko">한국어로 문의하셔도 됩니다. 견적과 문의 응답은 한국어로, 편집 작업은 영어로 진행합니다.</p>
+          <p lang="ja">日本語でのお問い合わせも歓迎します。見積もりとご質問には日本語で対応し、編集作業は英語で行います。</p>
+        </div>
+      </div>
+      <aside class="note">
+        <p>Replies in Chinese, Korean, and Japanese are handled in writing; there are no calls. English remains the working language for the manuscript itself.</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <img src="logo.svg" alt="" width="40" height="40" style="display:block;margin-bottom:10px">
+    <p>Alluvial Editing</p>
+    <p>Scientific editing for environmental and agricultural research</p>
+    <p>270 Centennial Drive, Tecumseh, Ontario N8N 2N8, Canada</p>
+    <p><a href="mailto:david@alluvialediting.ca">david@alluvialediting.ca</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
