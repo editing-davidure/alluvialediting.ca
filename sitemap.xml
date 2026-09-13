@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://alluvialediting.ca/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alluvialediting.ca/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://alluvialediting.ca/ko/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alluvialediting.ca/"/>
+  </url>
+  <url>
+    <loc>https://alluvialediting.ca/ko/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alluvialediting.ca/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://alluvialediting.ca/ko/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alluvialediting.ca/"/>
+  </url>
+  <!-- Add /zh/ and /ja/ here when those pages go live, extending the hreflang set
+       in BOTH existing entries as well. Every page must list every alternate,
+       including itself, or Google ignores the whole set. -->
+</urlset>
