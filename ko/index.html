@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alluvial Editing | SCI 논문 영문 과학 교정 및 교열</title>
+<meta name="description" content="토양·수질·식물 과학 분야 SCI 논문의 영문 과학 교정 및 교열. 논문을 발표한 박사 졸업자가 모든 논문을 직접 교정합니다. 1영업일 이내 확정 견적.">
+<link rel="canonical" href="https://alluvialediting.ca/ko/">
+<link rel="alternate" hreflang="en" href="https://alluvialediting.ca/">
+<link rel="alternate" hreflang="ko" href="https://alluvialediting.ca/ko/">
+<link rel="alternate" hreflang="x-default" href="https://alluvialediting.ca/">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #1e2a31;
+    --ink-soft: #55636b;
+    --rule: #d9dee2;
+    --delete: #b0303a;
+    --navy: #14294f;
+    --navy-soft: #2d4b80;
+    --insert: #1f5f9e;
+    --insert-bg: #eaf1fa;
+    --margin: #f5f7f8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", "Noto Serif KR", Georgia, "Malgun Gothic", "Apple SD Gothic Neo", serif;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--navy-soft); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; }
+
+  .page { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* Manuscript layout: a wide text column and a narrow margin column for notes */
+  .ms { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px 48px; }
+  @media (min-width: 820px) { .ms { grid-template-columns: minmax(0, 1fr) 260px; } }
+  .note {
+    font-size: 15px; line-height: 1.5; color: var(--ink-soft);
+    border-left: 2px solid var(--rule); padding-left: 16px;
+  }
+  @media (min-width: 820px) { .note { padding-top: 6px; } }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 0 16px; border-bottom: 2px solid var(--navy);
+    font-size: 16px;
+  }
+  header.top .brand { color: var(--navy); font-weight: 600; font-size: 18px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+  header.top .brand img { display: block; width: 34px; height: 34px; }
+  header.top nav a { margin-left: 22px; color: var(--ink); text-decoration: none; }
+  header.top nav a:hover { text-decoration: underline; }
+  @media (max-width: 560px) { header.top nav { display: none; } }
+
+  h1, h2, h3 { font-weight: 600; line-height: 1.15; margin: 0 0 0.5em; letter-spacing: -0.01em; color: var(--navy); }
+  h1 { font-size: clamp(28px, 3.8vw, 40px); max-width: 26ch; }
+  h2 { font-size: clamp(24px, 3vw, 30px); margin-top: 0; }
+  h3 { font-size: 20px; }
+  p { margin: 0 0 1em; max-width: 66ch; }
+  .lede { font-size: 21px; color: var(--ink-soft); max-width: 58ch; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+
+  /* Hero: the sample edit is the memorable element */
+  .hero { padding-top: 64px; }
+  .sample {
+    margin-top: 32px;
+    border: 1px solid var(--rule);
+    padding: 28px 28px 24px;
+    font-size: 19px;
+    line-height: 1.75;
+    max-width: 66ch;
+  }
+  .sample { border-top: 3px solid var(--navy); }
+  .sample .cap { font-size: 14px; color: var(--navy); margin: 0 0 12px; }
+  del { color: var(--delete); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+  ins { color: var(--insert); background: var(--insert-bg); text-decoration: none; padding: 0 2px; }
+  .sample .comment {
+    margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--rule);
+    font-size: 15px; color: var(--ink-soft); font-style: italic;
+  }
+  .sample .comment b { font-style: normal; color: var(--navy); font-weight: 600; }
+
+  .cta { display: inline-block; margin-top: 8px; padding: 12px 20px;
+    background: var(--navy); color: #fff; text-decoration: none; font-size: 17px; }
+  .cta:hover { background: var(--navy-soft); }
+  .cta.quiet { background: transparent; color: var(--navy); border: 1px solid var(--navy); margin-left: 8px; }
+  .cta.quiet:hover { background: var(--margin); }
+
+  /* Rates table */
+  table { border-collapse: collapse; width: 100%; font-size: 17px; margin: 8px 0 20px; }
+  th, td { text-align: left; vertical-align: top; padding: 14px 12px 14px 0; border-bottom: 1px solid var(--rule); }
+  table { table-layout: fixed; }
+  th { font-weight: 600; }
+  thead th { color: var(--navy); border-bottom: 2px solid var(--navy); }
+  td.rate { }
+  @media (max-width: 560px) {
+    table, thead, tbody, tr, th, td { display: block; width: 100%; }
+    thead { display: none; }
+    tr { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    th, td { border: 0; padding: 4px 0; }
+    td.rate { font-weight: 600; width: 100%; }
+  }
+  .extras { padding-left: 1.2em; margin: 0; max-width: 66ch; }
+  .extras li { break-inside: avoid; margin-bottom: 6px; }
+  @media (max-width: 560px) { .extras { columns: 1; } }
+
+  /* Process: a true sequence, so it is numbered */
+  ol.steps { padding-left: 0; list-style: none; counter-reset: step; max-width: 66ch; margin: 0; }
+  ol.steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 14px 0; border-top: 1px solid var(--rule); }
+  ol.steps li::before { content: counter(step) "."; font-weight: 600; color: var(--navy); }
+  ol.steps li:last-child { border-bottom: 1px solid var(--rule); }
+  ol.steps b { font-weight: 600; }
+
+  .langs { margin-top: 20px; padding: 16px 20px; background: var(--margin); max-width: 66ch; font-size: 16px; line-height: 1.7; }
+  .langs p { margin: 0 0 6px; }
+  .langs p:last-child { margin: 0; }
+
+  .portrait { display: block; width: 100%; max-width: 220px; height: auto; margin: 0 0 16px; }
+  @media (max-width: 819px) { .portrait { max-width: 180px; } }
+  footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-soft); border-top: 2px solid var(--navy); }
+  footer p { margin: 0 0 4px; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://alluvialediting.ca/#business",
+  "name": "Alluvial Editing",
+  "url": "https://alluvialediting.ca/ko/",
+  "inLanguage": "ko",
+  "email": "david@alluvialediting.ca",
+  "description": "토양·수질·식물 과학 분야 SCI 논문의 영문 교정과 과학 교정. 논문을 발표한 박사 학위 소지 과학자가 모든 논문을 직접 교정합니다.",
+  "slogan": "환경 및 농업 연구를 위한 과학 교정",
+  "logo": "https://alluvialediting.ca/apple-touch-icon.png",
+  "image": "https://alluvialediting.ca/apple-touch-icon.png",
+  "priceRange": "$$",
+  "currenciesAccepted": "USD",
+  "paymentAccepted": "Credit card, Bank transfer",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Tecumseh",
+    "addressRegion": "ON",
+    "addressCountry": "CA"
+  },
+  "areaServed": { "@type": "Country", "name": "대한민국" },
+  "availableLanguage": [
+    { "@type": "Language", "name": "한국어", "alternateName": "ko" },
+    { "@type": "Language", "name": "English", "alternateName": "en" }
+  ],
+  "knowsAbout": [
+    "영문 교정",
+    "논문 교정",
+    "SCI 논문 영문 교정",
+    "학술 논문 교정",
+    "토양 생지구화학",
+    "수질",
+    "식물 생리학",
+    "환경 화학",
+    "환경 공학"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "서비스",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "언어 교정 (Language Editing)" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "과학 교정 (Scientific Editing)" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "투고 준비 (Submission Preparation)" } }
+    ]
+  }
+}
+</script>
+
+</head>
+<body>
+<div class="page" id="top">
+
+  <header class="top">
+    <a class="brand" href="#top"><img src="../logo.svg" alt="" width="34" height="34">Alluvial Editing</a>
+    <nav aria-label="Sections">
+      <a href="#services">서비스 및 요금</a>
+      <a href="#process">진행 절차</a>
+      <a href="#about">편집자 소개</a>
+      <a href="#contact">문의</a>
+      <a href="/" lang="en" hreflang="en" style="color:var(--navy-soft)">English</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>토양·수질·식물 과학 분야 논문의 영문 과학 교정 및 교열</h1>
+    <p class="lede">Alluvial Editing은 해외 저널 영문 논문 투고를 목표로 하며 영문 과학 교정 및 교열을 제공합니다. 모든 교정은 논문을 발표한 박사 졸업자가 직접 수행합니다. 문법과 문체에 더하여 논증, 연구 방법, 그림과 표의 제시 방식까지 검토하며, 특히 제2언어로 논문을 작성하는 저자의 문장에서 심사위원의 오독을 가장 자주 유발하는 표현에 주의를 기울입니다.</p>
+    <a class="cta" href="#contact">견적 요청하기</a>
+    <a class="cta quiet" href="#services">요금 보기</a>
+
+    <div class="sample" aria-label="변경 내용 추적 교정 예시">
+      <p class="cap">과학 전문 교정 예시</p>
+      <p>Nitrate concentrations <del>was significantly increased</del><ins>increased</ins> <del>in the</del><ins>during</ins> spring <del>season</del><ins>(March–May; p&nbsp;&lt;&nbsp;0.01)</ins>, <del>which was because of</del><ins>consistent with</ins> fertilizer application <del>and also the rainfall</del><ins>followed by high rainfall</ins>. <del>This result proves that</del><ins>The seasonal timing suggests that</ins> agricultural runoff <del>is the source</del><ins>is the dominant nitrate source at this site; however, nitrate isotopic data are required to exclude organic manure or septic inputs</ins>.</p>
+      <p class="comment"><b>편집자 주석:</b> “proves”는 상관관계가 제공하는 근거를 과장하는 표현으로, 심사 과정에서 지적될 수 있습니다. 결론을 근거에 기반한 추론으로 제시하고, 축산 분뇨나 정화조 유입을 배제하려면 질산염 동위원소 자료가 필요하다는 점을 함께 명시하면 이러한 지적에 대응할 수 있습니다.</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="ms">
+      <div>
+        <h2>서비스 및 요금</h2>
+        <p>모든 요금은 미국 달러(USD) 기준입니다. 단어 수는 본문과 그림·표 설명을 포함하며, 참고문헌은 제외합니다.</p>
+        <table>
+          <colgroup><col style="width:24%"><col style="width:56%"><col style="width:20%"></colgroup>
+          <thead><tr><th>서비스</th><th>범위</th><th>요금</th></tr></thead>
+          <tbody>
+            <tr>
+              <th>영어 교정<br><span style="font-weight:400;font-size:.85em;color:var(--ink-soft)">Language Editing</span></th>
+              <td>문법·철자·구두점 교정, 명확성과 문장 흐름 개선, 목표 학술지의 문체 및 저자 지침 준수. 모든 수정 사항은 변경 내용 추적 기능으로 표시됩니다.</td>
+              <td class="rate">한 단어당 US$0.05</td>
+            </tr>
+            <tr>
+              <th>과학 전문 교정<br><span style="font-weight:400;font-size:.85em;color:var(--ink-soft)">Scientific Editing</span></th>
+              <td>영어 교정의 모든 항목에 더하여 과학적 논증, 연구 방법과 결과, 그림과 표를 검토합니다. 심사위원이 제기할 가능성이 높은 사항을 정리한 1쪽 분량의 편집 메모를 함께 제공합니다.</td>
+              <td class="rate">한 단어당 US$0.09</td>
+            </tr>
+            <tr>
+              <th>투고 준비<br><span style="font-weight:400;font-size:.85em;color:var(--ink-soft)">Submission Preparation</span></th>
+              <td>과학 전문 교정의 모든 항목에 더하여 저자가 검토할 수 있도록 적합한 목표 학술지 추천 목록, 커버레터, 본문 인용과 참고문헌 목록의 대조 확인, 학술지 형식에 맞춘 참고문헌 서식 작업을 제공하며, 학술지가 요구하는 경우 연구 하이라이트도 작성합니다. 심사 의견에 대한 답변서 교정은 납품일로부터 12개월 이내에 포함됩니다.</td>
+              <td class="rate">논문별 견적</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>추가 서비스 및 요금</h3>
+        <ul class="extras">
+          <li>교정 증명서: 모든 서비스에 포함</li>
+          <li>수정 후 재교정: 과학 전문 교정과 투고 준비의 경우 납품일로부터 12개월 이내 1회 무료, 그 외의 경우 기존 단어당 요금의 50%</li>
+          <li>답변서 교정: 한 단어당 US$0.05, 투고 준비에는 포함</li>
+          <li>커버레터 단독 의뢰: US$75</li>
+          <li>참고문헌 확인 및 서식 작업 단독 의뢰: 참고문헌 한 건당 US$1.50 (최소 US$75)</li>
+          <li>추가 스페셜 서비스: 25% 추가 요금 (영어 교정 2영업일, 과학 전문 교정 3영업일, 투고 준비 4영업일. 6,000단어 이하의 논문에 한함)</li>
+          <li>연구실 할인: 동일 연구 그룹이 의뢰한 세 번째 논문부터 10% 할인</li>
+          <li>최소 요금: 한 건당 US$75</li>
+        </ul>
+      </div>
+      <aside class="note">
+        <p>작업 착수 전 총 요금의 50% 착수금 납부 / 잔금 &ndash; 납품 시 결제. 모든 교정에는 1회의 후속 질의응답이 포함됩니다.</p>
+        <p>착수금 입금일을 기준으로 한 기본 납기는 8,000단어 이하 논문에 대하여 영어 교정 4영업일, 과학 전문 교정 5영업일, 투고 준비 7영업일입니다. 이보다 분량이 많은 논문은 견적서에 납품일을 명시합니다.</p>
+        <p>영업일은 월요일부터 금요일까지이며, 캐나다 온타리오주 법정 공휴일은 제외합니다. 미국 동부 시간(ET) 기준 정오 12시 이후에 입금된 착수금은 다음 영업일부터 기산합니다. 모든 견적서에는 납품일을 동부 시간과 저자의 현지 시간으로 함께 표기합니다. 추가 스페셜 서비스의 납품일을 지키지 못한 경우 추가 요금은 환불해 드립니다.</p>
+        <p>본 약관이 번역본으로 제공되는 경우 영문본이 우선합니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="ms">
+      <div>
+        <h2>진행 절차</h2>
+        <ol class="steps">
+          <li><span><b>논문 보내기.</b> 논문 파일, 목표 학술지(정해진 경우), 희망 마감일을 이메일로 보내 주십시오. 편집자가 초록과 앞부분을 검토한 후 1영업일 이내에 확정 견적을 제시합니다.</span></li>
+          <li><span><b>확정 및 착수금 결제.</b> 신용카드 또는 은행 송금으로 결제하실 수 있습니다. 기관 결제나 연구비 정산에 사용하실 수 있도록 정식 인보이스를 발행해 드립니다.</span></li>
+          <li><span><b>교정된 논문 수령.</b> 납품 시 변경 내용 추적 파일, 클린 버전, 교정 증명서, 잔금 인보이스를 함께 제공합니다. 과학 전문 교정에는 편집 메모가, 투고 준비에는 학술지 추천 목록과 커버레터를 비롯하여 합의된 자료가 추가됩니다. 납품일로부터 14일 이내에 후속 질문을 보내실 수 있습니다.</span></li>
+        </ol>
+      </div>
+      <aside class="note">
+        <p>Alluvial Editing은 논문을 교정하지만 저자를 대신하여 작성하지는 않습니다. 저자 표시, 데이터, 결론은 전적으로 저자에게 귀속되며, 논문을 재사용하거나 외부에 공유하지 않습니다. 모든 교정은 편집자가 직접 수행하며, 논문을 대규모 언어 모델이나 생성형 AI 서비스에 입력하지 않습니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="ms">
+      <div>
+        <h2>편집자 소개</h2>
+        <p>Alluvial Editing은 데이비드 유어(David Ure) 박사(화학·생화학)가 운영하며, 모든 논문을 직접 교정합니다. 유어 박사는 캐나다 온타리오주 윈저 대학교(University of Windsor)의 박사후연구원으로, 농업 수계와 오대호 수계의 영양염 순환, 수용액 지구화학, 수질, 안정동위원소 분석법을 연구하고 있습니다. ACS Agricultural Science &amp; Technology, Journal of Environmental Management, Rapid Communications in Mass Spectrometry, Journal of Chemical Technology and Biotechnology에 제1저자 논문을 발표하였으며, 마지막 학술지에서는 심사위원으로도 활동하였습니다.</p>
+        <p>2022년부터 유어 박사는 영문 학술지에 투고하는 저자들의 논문 약 1,400편을 교정하였으며, 여기에는 저자와 직접 서신을 주고받은 과학 전문 교정도 포함됩니다. 대부분은 토양·수질·식물 과학과 환경 화학 및 환경 공학 분야의 논문이었습니다.</p>
+        <p>그 결과 각 교정 작업은 해당 분야의 심사위원이 문제 삼을 가능성이 높은 주장, 학술지가 현재 요구하는 방법론적 세부 사항, 그리고 충실히 수행된 연구가 그에 걸맞게 읽히도록 하는 데 필요한 수정 사항을 미리 고려합니다.</p>
+      </div>
+      <aside class="note about">
+        <img class="portrait" src="../photo.jpg" width="600" height="800" alt="데이비드 유어 박사" loading="lazy">
+        <p>Alluvial Editing은 토양 생지구화학, 수질, 영양염 순환, 식물 생리학, 환경 화학, 환경 공학 및 농업 공학, 그리고 이와 관련된 분자생물학 분야의 논문을 받습니다.</p>
+        <p>그 밖의 분야의 논문은 개별적으로 검토한 후 수락하거나 다른 곳을 안내해 드립니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ms">
+      <div>
+        <h2>문의</h2>
+        <p>견적을 요청하시려면 논문과 목표 학술지(정해진 경우)를 <a href="mailto:david@alluvialediting.ca">david@alluvialediting.ca</a> 로 보내 주십시오. 1영업일 이내에 확정 견적을 보내 드립니다.</p>
+        <a class="cta" href="mailto:david@alluvialediting.ca?subject=%EA%B2%AC%EC%A0%81%20%EC%9A%94%EC%B2%AD">이메일로 견적 요청하기</a>
+        <div class="langs">
+          <p lang="ko"><b>한국어 담당 / Korean Manager</b><br>이은실 (Lee Eunsil)<br>카카오톡 ID: <b>Canadawindsor</b> (은실 Ure)</p>
+          <p lang="ko">견적, 일정, 결제, 인보이스, 교정료 지원 서류 등 행정적인 사항은 이은실 담당자가 한국어로 처리해 드립니다. 카카오톡으로 편하게 문의해 주십시오. 원고의 내용과 편집에 관한 논의는 편집자가 영어로 진행합니다.</p>
+        </div>
+      </div>
+      <aside class="note">
+        <p>한국어 문의는 서면으로만 받으며, 전화 및 화상 통화는 제공하지 않습니다. 행정 업무는 비밀유지 의무를 동일하게 적용받는 담당자가 처리하며, 원고는 편집자 본인만 열람합니다. 논문 교정의 작업 언어는 영어입니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <img src="../logo.svg" alt="" width="40" height="40" style="display:block;margin-bottom:10px">
+    <p>Alluvial Editing</p>
+    <p>환경 및 농업 연구를 위한 과학 전문 교정</p>
+    <p>캐나다 온타리오주 테컴세 (Tecumseh, Ontario, Canada)</p>
+    <p><a href="mailto:david@alluvialediting.ca">david@alluvialediting.ca</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
