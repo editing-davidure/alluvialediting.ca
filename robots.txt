@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alluvialediting.ca/sitemap.xml
+Sitemap: https://alluvialsciences.ca/sitemap.xml
